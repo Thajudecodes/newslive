@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <script>
+      function fetchNews() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://newsapi.org/v2/top-headlines?country=us&apiKey=4cd6347c23954323b4811a814f86d535");
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            const articles = response.articles;
+            for (let i = 0; i < articles.length; i++) {
+              const article = articles[i];
+              const title = article.title;
+              const description = article.description;
+              const link = article.url;
+              
+              const item = document.createElement("li");
+              item.innerHTML = `<a href="${link}"><h2>${title}</h2></a><p>${description}</p>`;
+              document.getElementById("news-list").appendChild(item);
+            }
+          }
+        };
+        xhr.send();
+      }
+    </script>
+  </head>
+  <body onload="fetchNews()">
+    <ul id="news-list"></ul>
+  </body>
+</html>
